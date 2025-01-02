@@ -30,7 +30,7 @@
     "url": "git+https://github.com/NinjaManatee/artifact-s3.git"
   },
   "scripts": {
-    "audit-moderate": "npm install && npm audit --json --audit-level=moderate > audit.json",
+    "audit-moderate": "npm install && npm audit --omit dev --json --audit-level=moderate > audit.json",
     "test": "jest --testTimeout 70000",
     "build": "tsc",
     "check-all": "concurrently \"npm:format-check\" \"npm:lint\" \"npm:test\" \"npm:build -- --noEmit\"",
