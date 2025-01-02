@@ -2,55 +2,16 @@
 
 Interact programmatically with [Actions Artifacts](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts).
 
-This is the core library that powers the [upload-artifact-s3`](https://github.com/NinjaManatee/upload-artifact-s3) and [`download-artifact-s3`](https://github.com/NinjaManatee/download-artifact-s3) actions.
+This is the core library that powers the [`upload-artifact-s3`](https://github.com/NinjaManatee/upload-artifact-s3) and [`download-artifact-s3`](https://github.com/NinjaManatee/download-artifact-s3) actions.
 
 
-- [`@actions/artifact`](#actionsartifact)
-  - [v2 - What's New](#v2---whats-new)
-    - [Improvements](#improvements)
-    - [Breaking changes](#breaking-changes)
+- [`artifact-s3`](#artifact-s3)
   - [Quick Start](#quick-start)
   - [Examples](#examples)
     - [Upload and Download](#upload-and-download)
     - [Delete an Artifact](#delete-an-artifact)
-    - [Downloading from other workflow runs or repos](#downloading-from-other-workflow-runs-or-repos)
     - [Speeding up large uploads](#speeding-up-large-uploads)
   - [Additional Resources](#additional-resources)
-
-## v2 - What's New
-
-> [!IMPORTANT]
-> @actions/artifact v2+, upload-artifact@v4+, and download-artifact@v4+ are not currently supported on GHES yet. The previous version of this package can be found at [this tag](https://github.com/actions/toolkit/tree/@actions/artifact@1.1.2/packages/artifact) and [on npm](https://www.npmjs.com/package/@actions/artifact/v/1.1.2).
-
-The release of `@actions/artifact@v2` (including `upload-artifact@v4` and `download-artifact@v4`) are major changes to the backend architecture of Artifacts. They have numerous performance and behavioral improvements.
-
-### Improvements
-
-1. All upload and download operations are much quicker, up to 80% faster download times and 96% faster upload times in worst case scenarios.
-2. Once uploaded, an Artifact ID is returned and Artifacts are immediately available in the UI and [REST API](https://docs.github.com/en/rest/actions/artifacts). Previously, you would have to wait for the run to be completed before an ID was available or any APIs could be utilized.
-3. Artifacts can now be downloaded and deleted from the UI _before_ the entire workflow run finishes.
-4. The contents of an Artifact are uploaded together into an _immutable_ archive. They cannot be altered by subsequent jobs. Both of these factors help reduce the possibility of accidentally corrupting Artifact files. (Digest/integrity hash coming soon in the API!)
-5. This library (and `actions/download-artifact`) now support downloading Artifacts from _other_ repositories and runs if a `GITHUB_TOKEN` with sufficient `actions:read` permissions are provided.
-
-### Breaking changes
-
-1. Firewall rules required for self-hosted runners.
-
-    If you are using self-hosted runners behind a firewall, you must have flows open to [Actions endpoints](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners#communication-between-self-hosted-runners-and-github). If you cannot use wildcard rules for your firewall, see the GitHub [meta endpoint](https://api.github.com/meta) for specific endpoints.
-
-    e.g.
-
-    ```bash
-    curl https://api.github.com/meta | jq .domains.actions
-    ```
-
-2. Uploading to the same named Artifact multiple times.
-
-    Due to how Artifacts are created in this new version, it is no longer possible to upload to the same named Artifact multiple times. You must either split the uploads into multiple Artifacts with different names, or only upload once.
-
-3. Limit of Artifacts for an individual job.
-
-    Each job in a workflow run now has a limit of 10 artifacts.
 
 ## Quick Start
 
