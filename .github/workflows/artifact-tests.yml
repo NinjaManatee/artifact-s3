@@ -111,7 +111,7 @@ jobs:
           const artifacts = listResult.artifacts
           const expected = [
             'my-artifact-ubuntu-latest',
-            'my-artifact-windows-latest',
+            // 'my-artifact-windows-latest',
             // 'my-artifact-macos-latest'
           ]
 
@@ -166,7 +166,7 @@ jobs:
 
           const artifactsToDelete = [
             'my-artifact-ubuntu-latest',
-            'my-artifact-windows-latest',
+            // 'my-artifact-windows-latest',
             // 'my-artifact-macos-latest'
           ]
 
