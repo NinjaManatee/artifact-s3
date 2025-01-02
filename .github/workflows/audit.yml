@@ -28,8 +28,5 @@ jobs:
     - name: npm install
       run: npm install
 
-    - name: audit tools (without allow-list)
-      run: npm audit --audit-level=moderate --omit dev
-
-    - name: audit packages
-      run: npm run audit-all
+    - name: audit
+      run: npm run audit-moderate
