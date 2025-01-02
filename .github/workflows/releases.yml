@@ -1,0 +1,61 @@
+name: Publish NPM
+
+run-name: Publish NPM - artifact-s3
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: setup repo
+        uses: actions/checkout@v4
+
+      - name: verify package exists
+        run: ls
+
+      - name: Set Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: npm install
+        run: npm install
+
+      - name: build
+        run: npm run build
+
+      - name: test
+        run: npm run test
+
+      - name: pack
+        run: npm pack
+
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifact-s3
+          path: artifact-s3/*.tgz
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: test
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+
+      - name: download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: artifact-s3
+
+      - name: setup authentication
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.TOKEN }}
+
+      - name: publish
+        run: npm publish --provenance *.tgz
