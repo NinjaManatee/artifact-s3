@@ -9,7 +9,7 @@
     "noImplicitAny": false,
     "baseUrl": "./",
     "outDir": "./lib",
-    "rootDir": "./",
+    "rootDir": "./src",
     "useUnknownInCatchVariables": false
   },
   "exclude": [
