@@ -119,10 +119,10 @@ jobs:
             expected.includes(artifact.name)
           )
 
-          if (foundArtifacts.length !== 3) {
+          if (foundArtifacts.length !== expected.length) {
             console.log('Unexpected length of found artifacts', foundArtifacts)
             throw new Error(
-              `Expected 3 artifacts but found ${foundArtifacts.length} artifacts.`
+              `Expected ${expected.length} artifacts but found ${foundArtifacts.length} artifacts.`
             )
           }
 
