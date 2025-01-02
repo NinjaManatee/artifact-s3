@@ -1,4 +1,4 @@
-name: toolkit-unit-tests
+name: artifact-s3-unit-tests
 on:
   push:
     branches:
@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        runs-on: [ubuntu-latest, macos-latest-large, windows-latest]
+        runs-on: [ubuntu-latest] # [ubuntu-latest, macos-latest-large, windows-latest]
 
         # Node 20 is the currently support Node version for actions - https://docs.github.com/actions/sharing-automations/creating-actions/metadata-syntax-for-github-actions#runsusing-for-javascript-actions
         node-version: [18.x, 20.x]

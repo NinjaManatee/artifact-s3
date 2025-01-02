@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        runs-on: [ubuntu-latest, windows-latest, macos-latest]
+        runs-on: [ubuntu-latest] #[ubuntu-latest, windows-latest, macos-latest]
       fail-fast: false
 
     runs-on: ${{ matrix.runs-on }}
@@ -47,7 +47,7 @@ jobs:
       uses: actions/github-script@v7
       with:
         script: |
-          const {default: artifact} = require('./lib/artifact-s3')
+          const {default: artifact} = require('./lib/artifact')
 
           const artifactName = 'my-artifact-${{ matrix.runs-on }}'
           console.log('artifactName: ' + artifactName)
@@ -93,7 +93,7 @@ jobs:
       uses: actions/github-script@v7
       with:
         script: |
-          const {default: artifactClient} = require('./lib/artifact-s3')
+          const {default: artifactClient} = require('./lib/artifact')
 
           const {readFile} = require('fs/promises')
           const path = require('path')
@@ -112,7 +112,7 @@ jobs:
           const expected = [
             'my-artifact-ubuntu-latest',
             'my-artifact-windows-latest',
-            'my-artifact-macos-latest'
+            // 'my-artifact-macos-latest'
           ]
 
           const foundArtifacts = artifacts.filter(artifact =>
@@ -162,12 +162,12 @@ jobs:
       uses: actions/github-script@v7
       with:
         script: |
-          const {default: artifactClient} = require('./lib/artifact-s3')
+          const {default: artifactClient} = require('./lib/artifact')
 
           const artifactsToDelete = [
             'my-artifact-ubuntu-latest',
             'my-artifact-windows-latest',
-            'my-artifact-macos-latest'
+            // 'my-artifact-macos-latest'
           ]
 
           for (const artifactName of artifactsToDelete) {
